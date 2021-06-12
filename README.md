@@ -1,5 +1,8 @@
 # Getting Started with Create React App
 
+https://github.com/colinschlecht/swolemates_API
+https://github.com/colinschlecht/swole_client
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
