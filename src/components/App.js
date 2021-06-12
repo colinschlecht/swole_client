@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import UserProfilePage from './UserProfilePage';
-import { api } from '../services/api';
+import Main from "./Main";
+import Login from "./Login";
+import Signup from "./Signup";
+import UserProfilePage from "./UserProfilePage";
+import { api } from "../services/api";
 
 const App = () => {
   const [auth, setAuth] = useState({ user: {} });
@@ -32,69 +32,65 @@ const App = () => {
   const onLogin = (data, routerProps) => {
     //! authorization
     if (data.jwt) {
-      console.log('successfully logged in');
-      localStorage.setItem('token', data.jwt);
+      console.log("successfully logged in");
+      localStorage.setItem("token", data.jwt);
       setAuth({
         user: {
           id: data.user.id,
           name: data.user.name,
         },
       });
-      routerProps.history.push('/');
+      routerProps.history.push("/");
     } else {
-      console.log('login failed');
+      console.log("login failed");
     }
   };
 
   const onSignup = (data, routerProps) => {
     if (data.jwt) {
-      console.log('successfully signed up');
-      localStorage.setItem('token', data.jwt);
+      console.log("successfully signed up");
+      localStorage.setItem("token", data.jwt);
       setAuth({
         user: {
           id: data.id,
           email: data.email,
         },
       });
-      routerProps.history.push('/');
+      routerProps.history.push("/");
     } else {
-      console.log('sign up failed');
+      console.log("sign up failed");
     }
   };
 
   const onLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setAuth({ ...auth, user: {} });
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, "", "/");
     window.location.reload();
   };
 
   //pass in props
-  const handleProfilePage = () => {
-    <UserProfilePage />
+  const renderProfilePage = () => {
+    <UserProfilePage />;
+  };
+
+  const renderSignup = () => {
+    <Signup onSignup={onSignup} routerProps={routerProps} />;
+  };
+  const renderLogin = () => {
+    <Login onLogin={onLogin} routerProps={routerProps} />;
+  };
+  const renderMain = () => {
+    <Home auth={auth} />;
   };
 
   return (
     <Container fluid>
-      <div className='routes-container'>
-        <Route
-          path='/signup'
-          render={(routerProps) => (
-            <Signup onSignup={onSignup} routerProps={routerProps} />
-          )}
-        />
-        <Route
-          path='/login'
-          render={(routerProps) => (
-            <Login onLogin={onLogin} routerProps={routerProps} />
-          )}
-        />
-        <Route
-          exact
-          path='/'
-          render={() => <Home auth={auth} onLogout={onLogout} />}
-        />
-        <Route path='/profile' exact component={handleProfilePage} />
+      <Route path="/signup" exact component={renderSignup} />
+      <Route path="/login" exact component={renderLogin} />
+      <div className="routes-container">
+        <Route path="/" exact component={renderMain} />
+        <Route path="/profile" exact component={renderProfilePage} />
       </div>
     </Container>
   );

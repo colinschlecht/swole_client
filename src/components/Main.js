@@ -1,7 +1,7 @@
 import React from 'react';
 import { api } from '../services/api';
 
-const Home = ({ auth, onLogout }) => {
+const Main = ({ auth, onLogout }) => {
   const onLogoutClick = () => {
     onLogout();
   };
@@ -14,4 +14,4 @@ const Home = ({ auth, onLogout }) => {
   );
 };
 
-export default Home;
+export default Main;
