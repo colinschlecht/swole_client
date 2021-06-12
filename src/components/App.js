@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
 import { api } from '../services/api';
 
 const App = () => {
@@ -28,6 +31,7 @@ const App = () => {
   const onLogin = (data, routerProps) => {
     //! authorization
     if (data.jwt) {
+      console.log('successfully logged in');
       localStorage.setItem('token', data.jwt);
       setAuth({
         user: {
@@ -43,6 +47,7 @@ const App = () => {
 
   const onSignup = (data, routerProps) => {
     if (data.jwt) {
+      console.log('successfully signed up');
       localStorage.setItem('token', data.jwt);
       setAuth({
         user: {
@@ -81,13 +86,7 @@ const App = () => {
         <Route
           exact
           path='/'
-          render={() =>
-            allCloths.length ? (
-              <Home idxs={renderFourIdxs()} cloth={allCloths} />
-            ) : (
-              <Loader />
-            )
-          }
+          render={() => <Home auth={auth} onLogout={onLogout} />}
         />
       </div>
     </Container>
