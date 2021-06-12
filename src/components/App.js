@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
+import TopNav from "./navigation/TopNav";
 import Main from "./Main";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -70,29 +71,23 @@ const App = () => {
   };
 
   //pass in props
-  const renderProfilePage = () => {
-    <UserProfilePage />;
-  };
-
-  const renderSignup = () => {
-    <Signup onSignup={onSignup} routerProps={routerProps} />;
-  };
-  const renderLogin = () => {
-    <Login onLogin={onLogin} routerProps={routerProps} />;
-  };
-  const renderMain = () => {
-    <Main auth={auth} />;
-  };
+  const renderProfilePage = () => <UserProfilePage />;
+  const renderSignup = () => <Signup onSignup={onSignup} />;
+  const renderLogin = () => <Login onLogin={onLogin} />;
+  const renderMain = () => <Main auth={auth} />;
 
   return (
-    <Container fluid>
-      <Route path="/signup" exact component={renderSignup} />
-      <Route path="/login" exact component={renderLogin} />
-      <div className="routes-container">
-        <Route path="/" exact component={renderMain} />
-        <Route path="/profile" exact component={renderProfilePage} />
-      </div>
-    </Container>
+    <>
+      <Container fluid>
+        <Route path="/signup" exact component={renderSignup} />
+        <Route path="/login" exact component={renderLogin} />
+        <div className="routes-container">
+          <TopNav onLogout={onLogout} />
+          <Route path="/" exact component={renderMain} />
+          <Route path="/profile" exact component={renderProfilePage} />
+        </div>
+      </Container>
+    </>
   );
 };
 

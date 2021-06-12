@@ -1,15 +1,13 @@
 import React from 'react';
 import { api } from '../services/api';
 
-const Main = ({ auth, onLogout }) => {
-  const onLogoutClick = () => {
-    onLogout();
-  };
+const Main = ({ auth }) => {
+
 
   return (
     <div>
       <h1>Suns out, Guns out</h1>
-      <button onClick={onLogoutClick}>Logout</button>
+      
     </div>
   );
 };

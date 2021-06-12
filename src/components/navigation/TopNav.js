@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const TopNav = () => {
-
-    const onLogoutClick = () => {
-        onLogout();
-      };
+const TopNav = ({ onLogout }) => {
+  const onLogoutClick = () => {
+    onLogout();
+  };
   return (
     <div className="ui menu secondary">
       <Link to="/dashboard" className="item">
