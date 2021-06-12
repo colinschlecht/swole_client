@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
+import UserProfilePage from './UserProfilePage';
 import { api } from '../services/api';
 
 const App = () => {
@@ -68,6 +69,11 @@ const App = () => {
     window.location.reload();
   };
 
+  //pass in props
+  const handleProfilePage = () => {
+    <UserProfilePage />
+  };
+
   return (
     <Container fluid>
       <div className='routes-container'>
@@ -88,6 +94,7 @@ const App = () => {
           path='/'
           render={() => <Home auth={auth} onLogout={onLogout} />}
         />
+        <Route path='/profile' exact component={handleProfilePage} />
       </div>
     </Container>
   );
