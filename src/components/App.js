@@ -70,23 +70,20 @@ const App = () => {
     window.location.reload();
   };
 
-  //pass in props
-  const renderProfilePage = () => <UserProfilePage />;
-  const renderSignup = () => <Signup onSignup={onSignup} />;
-  const renderLogin = () => <Login onLogin={onLogin} />;
-  const renderMain = () => <Main auth={auth} />;
 
   return (
     <>
-      <Container fluid>
-        <Route path="/signup" exact component={renderSignup} />
-        <Route path="/login" exact component={renderLogin} />
-        <div className="routes-container">
-          <TopNav onLogout={onLogout} />
-          <Route path="/" exact component={renderMain} />
-          <Route path="/profile" exact component={renderProfilePage} />
-        </div>
-      </Container>
+      <Switch>
+        <Route path="/signup" exact component={Signup} onSignup={onSignup} />
+        <Route path="/login" exact component={Login} onLogin={onLogin} />
+        <Container fluid>
+          <div className="routes-container">
+            <TopNav onLogout={onLogout} />
+            <Route path="/" exact component={Main} auth={auth} />
+            <Route path="/profile" exact component={UserProfilePage} />
+          </div>
+        </Container>
+      </Switch>
     </>
   );
 };
