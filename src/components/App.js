@@ -81,7 +81,7 @@ const App = () => {
     <Login onLogin={onLogin} routerProps={routerProps} />;
   };
   const renderMain = () => {
-    <Home auth={auth} />;
+    <Main auth={auth} />;
   };
 
   return (
