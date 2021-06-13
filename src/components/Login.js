@@ -60,6 +60,9 @@ const Login = ({ onLogin, routerProps, showAlert, renderAlert }) => {
             >
               Login
             </Button>
+   
+          </Row>
+          <Row className='justify-content-center align-items-center'>
             <Link to="/signup" className="item"><Button  variant='info'
                   size='lg'
                   block
