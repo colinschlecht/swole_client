@@ -92,10 +92,6 @@ const App = (props) => {
         <Container fluid>
           <div className="routes-container">
             <TopNav onLogout={onLogout} />
-<<<<<<< HEAD
-            <Route path="/" exact component={Main} auth={auth} />
-            <Route path="/profile" exact component={UserProfilePage} user={auth.user} />
-=======
             <Route
               exact
               path="/profile"
@@ -110,7 +106,6 @@ const App = (props) => {
                 <Main routerProps={routerProps} auth={auth} />
               )}
             />
->>>>>>> 5f03a7e058b193225289bc8f764608a05b4119e1
           </div>
         </Container>
       </Switch>
