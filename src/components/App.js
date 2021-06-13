@@ -74,22 +74,15 @@ const App = (props) => {
   return (
     <>
       <Switch>
-        <>
-          <Route
-            path="/signup"
-            exact
-            component={Signup}
-            onSignup={onSignup}
-          />
-          <Route path="/login" exact component={Login} onLogin={onLogin} />
-          <Container fluid>
-            <div className="routes-container">
-              <TopNav onLogout={onLogout} />
-              <Route path="/" exact component={Main} auth={auth} />
-              <Route path="/profile" exact component={UserProfilePage} />
-            </div>
-          </Container>
-        </>
+        <Route path="/signup" exact component={Signup} onSignup={onSignup} />
+        <Route path="/login" exact component={Login} onLogin={onLogin} />
+        <Container fluid>
+          <div className="routes-container">
+            <TopNav onLogout={onLogout} />
+            <Route path="/" exact component={Main} auth={auth} />
+            <Route path="/profile" exact component={UserProfilePage} />
+          </div>
+        </Container>
       </Switch>
     </>
   );
