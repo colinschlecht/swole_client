@@ -3,9 +3,9 @@ import React from 'react';
 //get currentUser obj through props 
 //map through props to display User profile information
 //add logic to handleclick 
-const ProfilePage = (props) => {
+const ProfilePage = () => {
     const handleEdit= () => {
-       console.log('mama i made it')
+       
       };
 
     return (

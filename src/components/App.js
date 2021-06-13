@@ -80,7 +80,7 @@ const App = (props) => {
           <div className="routes-container">
             <TopNav onLogout={onLogout} />
             <Route path="/" exact component={Main} auth={auth} />
-            <Route path="/profile" exact component={UserProfilePage} />
+            <Route path="/profile" exact component={UserProfilePage} user={auth.user} />
           </div>
         </Container>
        

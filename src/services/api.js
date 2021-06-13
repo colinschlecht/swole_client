@@ -42,11 +42,13 @@ const getCurrentUser = () => {
 
 
 const updateUser = async (id, user) => {
-  return await rails.patch(`/user/${id}`, user);
+  const res = await rails.patch(`/user/${id}`, user)
+  return res.data
 };
 
 const deleteUser = async (user) => {
-  return await rails.delete(`/user/${user.id}`);
+  const res = await rails.delete(`/user/${user.id}`)
+  return res.data
 };
 
 export const api = {
@@ -56,4 +58,8 @@ export const api = {
     getCurrentUser,
   },
   rails,
+  user: {
+    updateUser,
+    deleteUser,
+  },
 };
