@@ -37,6 +37,7 @@ const login = (data) => {
 };
 
 const getCurrentUser = () => {
+	console.log(token())
 	return fetch(`${BACKEND_URL}/profile`, {
 		headers: headers(),
 	}).then((res) => res.json());
@@ -55,7 +56,7 @@ const deleteUser = async (user) => {
 };
 
 const getOneUser = async (id) => {
-	return await rails.get(`/${id}`);
+	return await rails.get(`users/${id}`);
 };
 
 
