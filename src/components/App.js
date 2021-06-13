@@ -19,14 +19,17 @@ const App = (props) => {
     //! authentication
 
     const token = localStorage.token;
-    if (token) {
-      api.auth.getCurrentUser().then((data) =>
-        setAuth({
-          user: {
-            id: data.user.id,
-            name: data.user.name,
-          },
-        })
+    if (token && token != "undefined") {
+      api.auth.getCurrentUser().then(
+        (data) => console.log(data)
+        //exception: "#<NoMethodError: undefined method `read_attribute_for_serialization' for nil:NilClass>"
+
+        // setAuth({
+        //   user: {
+        //     id: data.user.id,
+        //     name: data.user.name,
+        //   },
+        // })
       );
     }
   }, []);
@@ -74,16 +77,29 @@ const App = (props) => {
   return (
     <>
       <Switch>
-        <Route path="/signup" exact component={Signup} onSignup={onSignup} />
-        <Route path="/login" exact component={Login} onLogin={onLogin} />
+        <Route
+          path="/signup"
+          render={(props) => <Signup {...props} onSignup={onSignup} />}
+        />
+        <Route
+          path="/login"
+          render={(props) => <Login {...props} onLogin={onLogin} />}
+        />
         <Container fluid>
           <div className="routes-container">
             <TopNav onLogout={onLogout} />
-            <Route path="/" exact component={Main} auth={auth} />
-            <Route path="/profile" exact component={UserProfilePage} />
+            <Route
+              exact
+              path="/profile"
+              render={(props) => <UserProfilePage {...props} auth={auth} />}
+            />
+            <Route
+              exact
+              path="/"
+              render={(props) => <Main {...props} auth={auth} />}
+            />
           </div>
         </Container>
-       
       </Switch>
     </>
   );
