@@ -8,15 +8,15 @@ const TopNav = ({ onLogout }) => {
   
   return (
     <div className="ui menu secondary">
-      <Link to="/dashboard" className="item">
+      <Link to="/" className="item">
         Swolemates
       </Link>
       <Link to="/profile" className="item">
         profile
       </Link>
       <div className="right menu">
-        <Link className="item">Sign Up</Link>
-        <Link className="item">Help</Link>
+        <Link to="/signup" className="item">Sign Up</Link>
+        <Link onClick={() => onLogoutClick()} to="/login" className="item">Logout</Link>
       </div>
     </div>
   );

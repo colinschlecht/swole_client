@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import TopNav from "./navigation/TopNav";
@@ -9,7 +9,7 @@ import Signup from "./Signup";
 import UserProfilePage from "./UserProfilePage";
 import { api } from "../services/api";
 
-const App = () => {
+const App = (props) => {
   const [auth, setAuth] = useState({ user: {} });
   //! testing purposes
   const [diets, setDiets] = useState([]);
@@ -17,6 +17,7 @@ const App = () => {
   //! testing purposes
   useEffect(() => {
     //! authentication
+
     const token = localStorage.token;
     if (token) {
       api.auth.getCurrentUser().then((data) =>
@@ -66,23 +67,29 @@ const App = () => {
   const onLogout = () => {
     localStorage.removeItem("token");
     setAuth({ ...auth, user: {} });
-    window.history.pushState({}, "", "/");
+    window.history.pushState({}, "", "/login");
     window.location.reload();
   };
-
 
   return (
     <>
       <Switch>
-        <Route path="/signup" exact component={Signup} onSignup={onSignup} />
-        <Route path="/login" exact component={Login} onLogin={onLogin} />
-        <Container fluid>
-          <div className="routes-container">
-            <TopNav onLogout={onLogout} />
-            <Route path="/" exact component={Main} auth={auth} />
-            <Route path="/profile" exact component={UserProfilePage} />
-          </div>
-        </Container>
+        <>
+          <Route
+            path="/signup"
+            exact
+            component={Signup}
+            onSignup={onSignup}
+          />
+          <Route path="/login" exact component={Login} onLogin={onLogin} />
+          <Container fluid>
+            <div className="routes-container">
+              <TopNav onLogout={onLogout} />
+              <Route path="/" exact component={Main} auth={auth} />
+              <Route path="/profile" exact component={UserProfilePage} />
+            </div>
+          </Container>
+        </>
       </Switch>
     </>
   );
