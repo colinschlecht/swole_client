@@ -55,7 +55,7 @@ const deleteUser = async (user) => {
 };
 
 const getOneUser = async (id) => {
-	return await rails.get(`/${id}`);
+	return await rails.get(`/users/${id}`);
 };
 
 

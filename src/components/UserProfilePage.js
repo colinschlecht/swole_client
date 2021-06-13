@@ -16,12 +16,13 @@ import { api } from "../services/api";
 //get currentUser obj through props
 //map through props to display User profile information
 //add logic to handleclick
-const UserProfilePage = () => {
-  const handleEdit = () => {};
-  const onEditForm = async (e) => {
-    e.preventDefault();
-  };
+const UserProfilePage = ({auth}) => {
 
+  useEffect(() => {
+      api.users.getOneUser(1).then(console.log())
+  });
+
+  
   return <div className="container pt-5"></div>;
 };
 
