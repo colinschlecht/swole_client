@@ -12,7 +12,7 @@ import { api } from "../services/api";
 const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
   //user name, email, password
   const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState(1);
   const [bio, setBio] = useState("");
   const [gender, setGender] = useState("non-binary");
   const [email, setEmail] = useState("");
@@ -83,17 +83,16 @@ const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
       bio,
       gender,
       email,
-      location,
       password,
+      location_id: 1,
       password_confirmation: passwordConfirm,
-      exercise_time: TIME,
-      exercise_discipline: DISCIPLINE,
-      diet: DIET,
-      gender_preference: GENDER,
-      music_preference: MUSIC,
+      exercise_time_id: TIME.data.id -1,
+      exercise_discipline_id: DISCIPLINE.data.id -1,
+      diet_id: DIET.data.id -1,
+      gender_preference_id: GENDER.data.id -1,
+      music_preference_id: MUSIC.data.id -1,
     };
-    console.log(newUser);
-    // api.auth.signup(newUser).then((res) => onSignup(res, routerProps));
+    api.auth.signup(newUser).then((res) => onSignup(res));
   };
 
   return (
