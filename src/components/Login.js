@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../services/api';
 import { Form, Row, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 const Login = ({ onLogin, routerProps, showAlert, renderAlert }) => {
   const [error, setError] = useState(false);
@@ -59,6 +60,11 @@ const Login = ({ onLogin, routerProps, showAlert, renderAlert }) => {
             >
               Login
             </Button>
+            <Link to="/signup" className="item"><Button  variant='info'
+                  size='lg'
+                  block
+                  style={{ borderRadius: '8px' }}
+                  className='col-5 col-sm-4 col-lg-2 mt-4 mb-3'>Sign Up</Button></Link>
           </Row>
         </Form>
       </div>

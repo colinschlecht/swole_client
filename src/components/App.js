@@ -83,6 +83,7 @@ const App = (props) => {
             <Route path="/profile" exact component={UserProfilePage} />
           </div>
         </Container>
+       
       </Switch>
     </>
   );
