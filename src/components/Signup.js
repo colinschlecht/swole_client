@@ -92,7 +92,7 @@ const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
       gender_preference_id: GENDER.data.id -1,
       music_preference_id: MUSIC.data.id -1,
     };
-    api.auth.signup(newUser).then((res) => onSignup(res));
+    api.auth.signup(newUser).then((res) => onSignup(res, routerProps));
   };
 
   return (

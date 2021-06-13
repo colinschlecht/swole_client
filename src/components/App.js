@@ -79,11 +79,15 @@ const App = (props) => {
       <Switch>
         <Route
           path="/signup"
-          render={(props) => <Signup {...props} onSignup={onSignup} />}
+          render={(routerProps) => (
+            <Signup routerProps={routerProps} onSignup={onSignup} />
+          )}
         />
         <Route
           path="/login"
-          render={(props) => <Login {...props} onLogin={onLogin} />}
+          render={(routerProps) => (
+            <Login routerProps={routerProps} onLogin={onLogin} />
+          )}
         />
         <Container fluid>
           <div className="routes-container">
@@ -91,12 +95,16 @@ const App = (props) => {
             <Route
               exact
               path="/profile"
-              render={(props) => <UserProfilePage {...props} auth={auth} />}
+              render={(routerProps) => (
+                <UserProfilePage routerProps={routerProps} auth={auth} />
+              )}
             />
             <Route
               exact
               path="/"
-              render={(props) => <Main {...props} auth={auth} />}
+              render={(routerProps) => (
+                <Main routerProps={routerProps} auth={auth} />
+              )}
             />
           </div>
         </Container>
