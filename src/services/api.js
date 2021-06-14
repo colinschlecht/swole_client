@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BACKEND_URL = "http://localhost:3000/api/v1/";
+// const BACKEND_URL = "https://swolemates-api.herokuapp.com/api/v1/users";
 
 const rails = axios.create({
 	baseURL: BACKEND_URL,
@@ -12,7 +13,7 @@ const headers = () => {
 	return {
 		'Content-Type': 'application/json',
 		Accept: 'application/json',
-		Authorization: token(),
+		Authorization: "Bearer " + token(),
 	};
 };
 

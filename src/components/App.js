@@ -11,10 +11,7 @@ import { api } from "../services/api";
 
 const App = (props) => {
   const [auth, setAuth] = useState({ user: {} });
-  //! testing purposes
-  const [diets, setDiets] = useState([]);
 
-  //! testing purposes
   useEffect(() => {
     //! authentication
 
@@ -25,7 +22,6 @@ const App = (props) => {
           user: {
             id: data.user.id,
             name: data.user.name,
-            email: data.user.email
           },
         })
       );
@@ -41,7 +37,6 @@ const App = (props) => {
         user: {
           id: data.user.id,
           name: data.user.name,
-          email: data.user.email,
         },
       });
       routerProps.history.push("/");
@@ -54,12 +49,10 @@ const App = (props) => {
     if (data.jwt) {
       console.log("successfully signed up");
       localStorage.setItem("token", data.jwt);
-
       setAuth({
         user: {
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.email,
+          id: data.id,
+          email: data.email,
         },
       });
       routerProps.history.push("/");
