@@ -71,6 +71,7 @@ const App = (props) => {
   return (
     <>
       <Switch>
+
         <Route
           path="/signup"
           render={(routerProps) => (
@@ -83,6 +84,7 @@ const App = (props) => {
             <Login routerProps={routerProps} onLogin={onLogin} />
           )}
         />
+        <>
         <Container fluid>
           <div className="routes-container">
             <TopNav onLogout={onLogout} />
@@ -102,6 +104,7 @@ const App = (props) => {
             />
           </div>
         </Container>
+        </>
       </Switch>
     </>
   );
