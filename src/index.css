@@ -40,6 +40,10 @@ h2,h3,h4,h5,h6{
     float: right;
     margin-top: -4.7em;
 }
+.confirmedit{
+    float: left;
+    margin-top: -4.7em;
+}
 .editiconbio{
     margin-left: -.5rem;
     margin-top: -.1rem;
@@ -60,13 +64,20 @@ margin-top: .6rem;
 .editicon.gender{
  font-size: 1rem;
  margin-top: -.5em;
- margin-left: -.2em;
 }
 .editicon:hover{
     color:black
 }
 
+#cancel-edit{
+    float:right;
+    margin-top: .5rem;
+}
 .age-range{
     padding-top: 1.7rem;
     padding-left: 40rem;
+}
+
+.biotextedit{
+    min-width: 100%!important;
 }

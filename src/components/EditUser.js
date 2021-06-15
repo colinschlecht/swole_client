@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-import { Gear } from "react-bootstrap-icons";
+import { Gear, X, Check, ArrowCounterclockwise } from "react-bootstrap-icons";
 import { api } from "../services/api";
 
 import UserImageCarousel from "./UserImageCarousel";
 import EditAttrList from "./EditAttrList";
 
 const EditUser = ({ routerProps, location, auth }) => {
+  //! loading state
+  const [loading, setLoading] = useState(false);
   //! user state
   const [user, setUser] = useState("");
   const [dist, setDist] = useState("");
 
   //! editing state
-
   const [editingName, setEditingName] = useState(false);
   const [editingAge, setEditingAge] = useState(false);
   const [editingGender, setEditingGender] = useState(false);
@@ -45,15 +46,29 @@ const EditUser = ({ routerProps, location, auth }) => {
     //! get profile data
     api.users.getUser(routerProps.match.params.id).then((result) => {
       setUser(result.data);
+      setName(result.data.name);
+      setBio(result.data.bio);
+      setAge(result.data.age);
+      setGender(result.data.gender);
+      setExerciseTime(result.data.exercise_time);
+      setExerciseDiscipline(result.data.exercise_discipline);
+      setDiet(result.data.diet);
+      setMusicPreference(result.data.music_preference);
+      setGenderPreference(result.data.gender_preference);
     });
   }, [routerProps]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  };
 
   const onReset = () => {
-    window.location.reload();
+    setName(user.name);
+    setBio(user.bio);
+    setAge(user.age);
+    setGender(user.gender);
+    setExerciseTime(user.exercise_time);
+    setExerciseDiscipline(user.exercise_discipline);
+    setDiet(user.diet);
+    setMusicPreference(user.music_preference);
+    setGenderPreference(user.gender_preference);
   };
   const onCancel = () => {
     routerProps.history.push(`/profile/${user.id}`);
@@ -94,8 +109,6 @@ const EditUser = ({ routerProps, location, auth }) => {
   }
 
   const handleChange = (changeObj, title) => {
-    console.log(changeObj);
-    console.log(title);
     switch (title) {
       case "exercise_discipline":
         setExerciseDiscipline(changeObj);
@@ -117,17 +130,44 @@ const EditUser = ({ routerProps, location, auth }) => {
     }
   };
 
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    console.log(diet)
+    try{
+        await api.pref.editDietPref(diet, user.diet.id)
+        await api.pref.editTimePref(exercise_time, user.exercise_time.id)
+        await api.pref.editDisciplinePref(exercise_discipline, user.exercise_discipline.id)
+        await api.pref.editGenderPref(exercise_time, user.gender_preference.id)
+        await api.pref.editMusicPref(music_preference, user.music_preference.id)
+        setLoading(false)
+        routerProps.history.push(`/profile/${user.id}`)
+    } catch (err){
+        setLoading(false)
+        alert("Update Unsuccessful")
+        console.log(err)
+    }
+  };
+
   return (
     <Container fluid className="outer-profilecontainer">
       <Container fluid className="profilecontainer">
-        <Row className="edit">
-          <Col>
+        <Row >
+          <Col className="confirmedit">
             {user.id === auth.user.id ? (
-              <Link to={`profile/${user.id}/edit`}>
                 <h1>
-                  <Gear className="editicon" />
+                  <Check onClick={()=> handleSubmit()} className="editicon" />
                 </h1>
-              </Link>
+
+            ) : null}
+          </Col>
+          <Col className="edit">
+            {user.id === auth.user.id ? (
+                <h1>
+                  <X onClick={()=> onCancel()} id="cancel-edit" className="editicon" />
+                  <ArrowCounterclockwise onClick={()=> onReset()} id="cancel-edit" className="editicon" />
+                </h1>
+
             ) : null}
           </Col>
         </Row>
@@ -137,10 +177,12 @@ const EditUser = ({ routerProps, location, auth }) => {
           </Col>
         </Row>
         <Row className="justify-content-center w-75 m-auto">
-          <Col>
-            <h1>
+          
+           
               {editingName ? (
+                
                 <>
+                <Col>
                   <Gear
                     className="editicon small"
                     onClick={() => setEditingName(!editingName)}
@@ -149,46 +191,40 @@ const EditUser = ({ routerProps, location, auth }) => {
                     type="text"
                     className="form-control"
                     name="name"
-                    placeholder="Username"
+                    placeholder={name}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
+                  </Col>
                 </>
               ) : (
                 <>
-                  <Gear
-                    className="editicon small"
-                    onClick={() => setEditingName(!editingName)}
-                  />
-                  {user.name}
+                  <Col>
+                  <h1>  <Gear
+                      className="editicon small"
+                      onClick={() => setEditingName(!editingName)}
+                    />
+                    &nbsp;
+                    {name}</h1>
+                  </Col>
                 </>
               )}
-            </h1>
-          </Col>
-          
-            {editingAge ? (
-                      <>
-                <Form.Group controlId="formBasicRangeCustom">
-                      <Form.Control
-                      className="age-range"
-                        type="range"
-                        custom
-                        value={age}
-                        min={1}
-                        max={100}
-                        step={1}
-                        onChange={(e) => setAge(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Col>
-                <Gear
-                  className="editiconage editicon"
-                  onClick={() => setEditingAge(!editingAge)}
+           
+
+          {editingAge ? (
+            <>
+              <Form.Group controlId="formBasicRangeCustom">
+                <Form.Control
+                  className="age-range"
+                  type="range"
+                  custom
+                  value={age}
+                  min={1}
+                  max={100}
+                  step={1}
+                  onChange={(e) => setAge(e.target.value)}
                 />
-                <h1 className="age">{age}</h1>
-                </Col>
-              </>
-            ) : (
+              </Form.Group>
               <Col>
                 <Gear
                   className="editiconage editicon"
@@ -196,19 +232,49 @@ const EditUser = ({ routerProps, location, auth }) => {
                 />
                 <h1 className="age">{age}</h1>
               </Col>
-            )}
-          
+            </>
+          ) : (
+            <Col>
+              <Gear
+                className="editiconage editicon"
+                onClick={() => setEditingAge(!editingAge)}
+              />
+              <h1 className="age">{age}</h1>
+            </Col>
+          )}
         </Row>
         <Row className="w-75 m-auto">
-          <Col>
-            <h6>
-              {user.gender}&nbsp;
+          {editingGender ? (
+            <Col>
               <Gear
                 onClick={() => setEditingGender(!editingGender)}
                 className="editicon gender"
               />
-            </h6>
-          </Col>
+              &nbsp;
+              <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Control
+                  as="select"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option>non-binary</option>
+                  <option>male</option>
+                  <option>female</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+          ) : (
+            <Col>
+              <h6>
+                <Gear
+                  onClick={() => setEditingGender(!editingGender)}
+                  className="editicon gender"
+                />
+                &nbsp;
+                {gender}
+              </h6>
+            </Col>
+          )}
           <Col>
             <h6 className="distance">
               {dist ? dist : getDistance()} miles away
@@ -217,25 +283,26 @@ const EditUser = ({ routerProps, location, auth }) => {
         </Row>
         <Row className="w-75 p-3 m-auto bio">
           {editingBio ? (
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Col>
-                <Gear
-                  className="editiconbio editicon"
-                  onClick={() => setEditingBio(!editingBio)}
-                />
+            <Col>
+              <Gear
+                className="editicon"
+                onClick={() => setEditingBio(!editingBio)}
+              />
+              <Form.Group controlId="exampleForm.ControlTextarea1">
                 <Form.Control
+                  className="biotextedit"
                   defaultValue={user.bio}
                   as="textarea"
                   rows={3}
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
-              </Col>
-            </Form.Group>
+              </Form.Group>
+            </Col>
           ) : (
             <>
               <Gear
-                className="editiconbio editicon"
+                className="editicon"
                 onClick={() => setEditingBio(!editingBio)}
               />
               &nbsp;
@@ -315,56 +382,3 @@ const EditUser = ({ routerProps, location, auth }) => {
 };
 
 export default EditUser;
-
-// {
-//     //! NAME
-//   }
-//   <Row className="justify-content-center">
-//     <div className="col-10 col-sm-8 col-md-5 my-3">
-//       <input
-//         type="text"
-//         className="form-control"
-//         name="name"
-//         placeholder="Username"
-//         value={name}
-//         onChange={(e) => setName(e.target.value)}
-//       />
-//     </div>
-//   </Row>
-
-// {
-//     //! AGE
-//   }
-//   <Row className="justify-content-center">
-//     <Form.Group controlId="formBasicRangeCustom">
-//       <Form.Label>Age (1 - 100)</Form.Label>
-//       <Form.Control
-//         type="range"
-//         custom
-//         value={age}
-//         min={1}
-//         max={100}
-//         step={1}
-//         tooltip="on"
-//         key="bottom"
-//         onChange={(e) => setAge(e.target.value)}
-//       />
-//     </Form.Group>
-//   </Row>
-//   {
-//     //! GENDER
-//   }
-//   <Row className="justify-content-center">
-//     <Form.Group controlId="exampleForm.ControlSelect1">
-//       <Form.Label>Gender</Form.Label>
-//       <Form.Control
-//         as="select"
-//         value={gender}
-//         onChange={(e) => setGender(e.target.value)}
-//       >
-//         <option>non-binary</option>
-//         <option>male</option>
-//         <option>female</option>
-//       </Form.Control>
-//     </Form.Group>
-//   </Row>
