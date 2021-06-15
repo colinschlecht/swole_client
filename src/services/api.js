@@ -46,13 +46,13 @@ const getCurrentUser = () => {
 const updateUser = async (id, user) => {
   // const res = await rails.patch(etccc)
   //return res.data
-  return await rails.patch(`/user/${id}`, user);
+  return await rails.patch(`/users/${id}`, user);
 };
 
 const deleteUser = async (user) => {
   // const res = await rails.delete(etccc)
   //return res.data
-  return await rails.delete(`/user/${user.id}`);
+  return await rails.delete(`/users/${user.id}`);
 };
 
 const getUser = async (id) => {

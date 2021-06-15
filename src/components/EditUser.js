@@ -96,7 +96,6 @@ const EditUser = ({ routerProps, location, auth }) => {
               Math.sin(difflon / 2)
         )
       );
-    console.log(d);
     if (d === 0) {
       let distance = parseInt(d);
       setDist(distance.toString());
@@ -112,6 +111,7 @@ const EditUser = ({ routerProps, location, auth }) => {
     switch (title) {
       case "exercise_discipline":
         setExerciseDiscipline(changeObj);
+        console.log(exercise_discipline)
         break;
       case "exercise_time":
         setExerciseTime(changeObj);
@@ -133,8 +133,12 @@ const EditUser = ({ routerProps, location, auth }) => {
 
   const handleSubmit = async () => {
     setLoading(true)
-    console.log(diet)
+    user.name = name
+    user.age = age
+    user.gender = gender
+    user.bio = bio
     try{
+        await api.users.updateUser(user.id, user)
         await api.pref.editDietPref(diet, user.diet.id)
         await api.pref.editTimePref(exercise_time, user.exercise_time.id)
         await api.pref.editDisciplinePref(exercise_discipline, user.exercise_discipline.id)
@@ -315,10 +319,10 @@ const EditUser = ({ routerProps, location, auth }) => {
         </Row>
         <Row className="w-75 m-auto ">
           <Col>
-            {user && (
+            {exercise_discipline && (
               <EditAttrList
                 key={user?.exercise_discipline.id}
-                attrObj={user?.exercise_discipline}
+                attrObj={exercise_discipline}
                 listName={"exercise_discipline"}
                 handleChange={(changeObj, title) =>
                   handleChange(changeObj, title)
@@ -327,10 +331,10 @@ const EditUser = ({ routerProps, location, auth }) => {
             )}
           </Col>
           <Col>
-            {user && (
+            {exercise_time && (
               <EditAttrList
                 key={user?.exercise_time.id}
-                attrObj={user?.exercise_time}
+                attrObj={exercise_time}
                 listName={"exercise_time"}
                 handleChange={(changeObj, title) =>
                   handleChange(changeObj, title)
@@ -339,10 +343,10 @@ const EditUser = ({ routerProps, location, auth }) => {
             )}
           </Col>
           <Col>
-            {user && (
+            {diet && (
               <EditAttrList
                 key={user?.diet.id}
-                attrObj={user?.diet}
+                attrObj={diet}
                 listName={"diet"}
                 handleChange={(changeObj, title) =>
                   handleChange(changeObj, title)
@@ -352,10 +356,10 @@ const EditUser = ({ routerProps, location, auth }) => {
           </Col>
 
           <Col>
-            {user && (
+            {music_preference && (
               <EditAttrList
                 key={user?.music_preference.id}
-                attrObj={user?.music_preference}
+                attrObj={music_preference}
                 listName={"music_preference"}
                 handleChange={(changeObj, title) =>
                   handleChange(changeObj, title)
@@ -364,10 +368,10 @@ const EditUser = ({ routerProps, location, auth }) => {
             )}
           </Col>
           <Col>
-            {user && (
+            {gender_preference && (
               <EditAttrList
                 key={user?.gender_preference.id}
-                attrObj={user?.gender_preference}
+                attrObj={gender_preference}
                 listName={"gender_preference"}
                 handleChange={(changeObj, title) =>
                   handleChange(changeObj, title)

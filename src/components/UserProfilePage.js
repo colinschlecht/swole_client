@@ -46,7 +46,6 @@ const UserProfilePage = ({ routerProps, location, auth }) => {
               Math.sin(difflon / 2)
         )
       );
-    console.log(d);
     if (d === 0) {
       let distance = parseInt(d);
       setDist(distance.toString());
