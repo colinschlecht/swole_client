@@ -138,7 +138,7 @@ const EditUser = ({ routerProps, location, auth }) => {
         await api.pref.editDietPref(diet, user.diet.id)
         await api.pref.editTimePref(exercise_time, user.exercise_time.id)
         await api.pref.editDisciplinePref(exercise_discipline, user.exercise_discipline.id)
-        await api.pref.editGenderPref(exercise_time, user.gender_preference.id)
+        await api.pref.editGenderPref(gender_preference, user.gender_preference.id)
         await api.pref.editMusicPref(music_preference, user.music_preference.id)
         setLoading(false)
         routerProps.history.push(`/profile/${user.id}`)
