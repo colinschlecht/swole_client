@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 
 import TopNav from "./navigation/TopNav";
 import Main from "./Main";
+import EditUser from './EditUser'
 import Login from "./Login";
 import Signup from "./Signup";
 import UserProfilePage from "./UserProfilePage";
@@ -101,6 +102,13 @@ const App = () => {
                 path="/profile/:id"
                 render={(routerProps) => (
                   <UserProfilePage location={locationTesting} routerProps={routerProps} auth={auth} />
+                )}
+              />
+              <Route
+                exact
+                path="/profile/:id/edit"
+                render={(routerProps) => (
+                  <EditUser location={locationTesting} routerProps={routerProps} auth={auth} />
                 )}
               />
               <Route

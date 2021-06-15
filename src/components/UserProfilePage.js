@@ -1,71 +1,77 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Container, Row, Col} from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import { Gear } from "react-bootstrap-icons";
 import { api } from "../services/api";
 
 import UserImageCarousel from "./UserImageCarousel";
 import AttrList from "./AttrList";
 
-//pass user id through routerprops/match params
-//api call to database [get user info based on id]
-//dont need form / display user info
-
-//add logic to handleclick
-const UserProfilePage = ({ routerProps, location }) => {
+const UserProfilePage = ({ routerProps, location, auth }) => {
   const [user, setUser] = useState("");
-  const [currentLoc, setCurrentLoc] = useState(location.location);
-  const [dist, setDist] = useState(0)
+  const [dist, setDist] = useState("");
 
   useEffect(() => {
     //! get profile data
-    api.users
-      .getUser(routerProps.match.params.id)
-      .then((result) => setUser(result.data))
-  }, [routerProps.match.params.id]);
+    api.users.getUser(routerProps.match.params.id).then((result) => {
+      setUser(result.data);
+    });
+  }, [routerProps]);
 
   const handleEdit = () => {};
   const onEditForm = async (e) => {
     e.preventDefault();
   };
 
-  function getDistance(lat1, lon1, lat2, lon2) {
-    let R = 3958.8; // Radius of the earth in miles
-    let dLat = deg2rad(lat2 - lat1); // deg2rad below
-    let dLon = deg2rad(lon2 - lon1);
-    let a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c; // Distance in mi
-    return d;
-  }
-
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
-  const distance = () => {
-    if (user && currentLoc) {
-      getDistance(
-        user?.location.latitude,
-        user?.location.longitude,
-        currentLoc?.latitude,
-        currentLoc?.longitude
+  function getDistance() {
+    const lat1 = parseFloat(user.location?.latitude);
+    const lon1 = parseFloat(user.location?.longitude);
+    const lat2 = parseFloat(location.location.latitude);
+    const lon2 = parseFloat(location.location.longitude);
+    var R = 3958.8; // Radius of the earth in miles
+    var rlat1 = lat1 * (Math.PI / 180); // Convert degrees to radians
+    var rlat2 = lat2 * (Math.PI / 180); // Convert degrees to radians
+    var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+    var difflon = (lon2 - lon1) * (Math.PI / 180); // Radian difference (longitudes)
+    var d =
+      2 *
+      R *
+      Math.asin(
+        Math.sqrt(
+          Math.sin(difflat / 2) * Math.sin(difflat / 2) +
+            Math.cos(rlat1) *
+              Math.cos(rlat2) *
+              Math.sin(difflon / 2) *
+              Math.sin(difflon / 2)
+        )
       );
+    console.log(d);
+    if (d === 0) {
+      let distance = parseInt(d);
+      setDist(distance.toString());
+    } else {
+      if (d) {
+        let distance = parseInt(d);
+        setDist(distance.toString());
+      }
     }
-  };
+  }
 
   return (
-    <Container fluid>
+    <Container fluid className="outer-profilecontainer">
       <Container fluid className="profilecontainer">
+        <Row className="edit">
+          <Col>
+            {user.id === auth.user.id ? (
+              <Link to={`${user.id}/edit`}>
+                <h1>
+                  <Gear className="editicon" />
+                </h1>
+              </Link>
+            ) : null}
+          </Col>
+        </Row>
         <Row className="justify-content-center w-75 p-1 m-auto">
           <Col>
             <UserImageCarousel />
@@ -84,7 +90,9 @@ const UserProfilePage = ({ routerProps, location }) => {
             <h6>{user.gender}</h6>
           </Col>
           <Col>
-            <h6 className="distance">{user.gender}</h6>
+            <h6 className="distance">
+              {dist ? dist : getDistance()} miles away
+            </h6>
           </Col>
         </Row>
         <Row className="w-75 p-3 m-auto bio">

@@ -10,7 +10,8 @@ import {
 import { api } from "../services/api";
 
 const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
-  //user name, email, password
+
+  //user name, email, password, bio
   const [name, setName] = useState("");
   const [age, setAge] = useState(1);
   const [bio, setBio] = useState("");
@@ -19,55 +20,16 @@ const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   //exercise_time:
-  const [exercise_time, setExerciseTime] = useState({
-    early_morning: false,
-    morning: false,
-    afternoon: false,
-    early_evening: false,
-    late_evening: false,
-    late_night: false,
-  });
-  const [exercise_discipline, setExerciseDiscipline] = useState({
-    cardio: false,
-    muscle_strengthening: false,
-    aerobic: false,
-  });
-  const [diet, setDiet] = useState({
-    keto: false,
-    low_carb: false,
-    vegan: false,
-    vegetarian: false,
-    pescatarian: false,
-    alkaline: false,
-    raw_food: false,
-    intermittent_fasting: false,
-    paleo: false,
-    clean_eating: false,
-    mediterranean: false,
-  });
-  const [gender_preference, setGenderPreference] = useState({
-    male: false,
-    female: false,
-    non_binary: false,
-    none: false,
-  });
-  const [location, setLocation] = useState({
-    latitude: "46.8863847811234",
-    longitude: "-122.568053329686",
-  });
-  const [music_preference, setMusicPreference] = useState({
-    rock: false,
-    techno: false,
-    rap: false,
-    country: false,
-    pop: false,
-    alternative: false,
-    classical: false,
-    funk: false,
-    latin: false,
-    jazz: false,
-    none: false,
-  });
+  const [exercise_time, setExerciseTime] = useState({});
+  const [exercise_discipline, setExerciseDiscipline] = useState({});
+  const [diet, setDiet] = useState({});
+  const [gender_preference, setGenderPreference] = useState({});
+
+  const [music_preference, setMusicPreference] = useState({});
+
+  useEffect(()=>{
+
+  })
 
   const onFormSubmit = async (e) => {
     e.preventDefault();

@@ -2,6 +2,12 @@
   border: 1px solid rgba(65, 65, 65, 0.249);
   border-radius: .5em;
   padding-top: 5em;
+  margin-bottom: 2rem;
+  box-shadow:  0 2px 4px 0 rgba(75, 75, 75, 0.2), 0 6px 20px 0 rgba(82, 81, 81, 0.19);
+}
+.outer-profilecontainer {
+    padding-bottom: 1rem black;
+
 }
 .age {
   float: right;
@@ -15,10 +21,12 @@
   border-bottom: 1px solid rgba(65, 65, 65, 0.249);
 }
 .profile.list {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow:  0 2px 4px 0 rgba(75, 75, 75, 0.078), 0 6px 20px 0 rgba(82, 81, 81, 0.064);
 }
 #attrsectiontitle{
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 h1{
@@ -27,4 +35,38 @@ h1{
 
 h2,h3,h4,h5,h6{
     letter-spacing: .1rem;
+}
+.edit{
+    float: right;
+    margin-top: -4.7em;
+}
+.editiconbio{
+    margin-left: -.5rem;
+    margin-top: -.1rem;
+
+}
+.editicon{
+ color: rgba(65, 65, 65, 0.249);
+}
+.editiconage{
+float: right;
+margin-top: .6rem;
+ color: rgba(65, 65, 65, 0.249);
+}
+.editicon.small{
+ font-size: 1rem;
+ margin-top: -1.1em;
+}
+.editicon.gender{
+ font-size: 1rem;
+ margin-top: -.5em;
+ margin-left: -.2em;
+}
+.editicon:hover{
+    color:black
+}
+
+.age-range{
+    padding-top: 1.7rem;
+    padding-left: 40rem;
 }
