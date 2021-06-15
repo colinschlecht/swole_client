@@ -56,7 +56,7 @@ const deleteUser = async (user) => {
 	return await rails.delete(`/user/${user.id}`);
 };
 
-const getOneUser = async (id) => {
+const getUser = async (id) => {
 	return await rails.get(`users/${id}`);
 };
 
@@ -98,7 +98,7 @@ export const api = {
     newMusicPref,
   },
 	users: {
-		getOneUser,
+		getUser,
     updateUser,
     deleteUser,
 	},

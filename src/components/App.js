@@ -9,22 +9,25 @@ import Signup from "./Signup";
 import UserProfilePage from "./UserProfilePage";
 import { api } from "../services/api";
 
-const App = (props) => {
+const App = () => {
   const [auth, setAuth] = useState({ user: {} });
+  const [locationTesting, setLocationTesting] = useState({ location: {} });
 
   useEffect(() => {
     //! authentication
-
     const token = localStorage.token;
     if (token && token != "undefined") {
-      api.auth.getCurrentUser().then((data) =>
+      api.auth.getCurrentUser().then((data) => {
         setAuth({
           user: {
             id: data.user.id,
             name: data.user.name,
           },
-        })
-      );
+        });
+        setLocationTesting({
+          location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
+        });
+      });
     }
   }, []);
 
@@ -38,6 +41,9 @@ const App = (props) => {
           id: data.user.id,
           name: data.user.name,
         },
+      });
+      setLocationTesting({
+        location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
       });
       routerProps.history.push("/");
     } else {
@@ -55,6 +61,9 @@ const App = (props) => {
           email: data.email,
         },
       });
+      setLocationTesting({
+        location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
+      });
       routerProps.history.push("/");
     } else {
       console.log("sign up failed");
@@ -71,7 +80,6 @@ const App = (props) => {
   return (
     <>
       <Switch>
-
         <Route
           path="/signup"
           render={(routerProps) => (
@@ -85,25 +93,25 @@ const App = (props) => {
           )}
         />
         <>
-        <Container fluid>
-          <div className="routes-container">
-            <TopNav onLogout={onLogout} />
-            <Route
-              exact
-              path="/profile"
-              render={(routerProps) => (
-                <UserProfilePage routerProps={routerProps} auth={auth} />
-              )}
-            />
-            <Route
-              exact
-              path="/"
-              render={(routerProps) => (
-                <Main routerProps={routerProps} auth={auth} />
-              )}
-            />
-          </div>
-        </Container>
+          <Container fluid>
+            <div className="routes-container">
+              <TopNav onLogout={onLogout} auth={auth} />
+              <Route
+                exact
+                path="/profile/:id"
+                render={(routerProps) => (
+                  <UserProfilePage location={locationTesting} routerProps={routerProps} auth={auth} />
+                )}
+              />
+              <Route
+                exact
+                path="/"
+                render={(routerProps) => (
+                  <Main routerProps={routerProps} auth={auth} />
+                )}
+              />
+            </div>
+          </Container>
         </>
       </Switch>
     </>
