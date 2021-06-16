@@ -86,11 +86,11 @@ const Signup = ({ onSignup, routerProps, showAlert, renderAlert }) => {
       password,
       location_id: 1,
       password_confirmation: passwordConfirm,
-      exercise_time_id: TIME.data.id -1,
-      exercise_discipline_id: DISCIPLINE.data.id -1,
-      diet_id: DIET.data.id -1,
-      gender_preference_id: GENDER.data.id -1,
-      music_preference_id: MUSIC.data.id -1,
+      exercise_time_id: TIME.data.id,
+      exercise_discipline_id: DISCIPLINE.data.id,
+      diet_id: DIET.data.id,
+      gender_preference_id: GENDER.data.id,
+      music_preference_id: MUSIC.data.id,
     };
     api.auth.signup(newUser).then((res) => onSignup(res, routerProps));
   };

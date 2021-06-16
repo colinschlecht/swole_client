@@ -4,31 +4,31 @@ import { Container } from "react-bootstrap";
 
 import TopNav from "./navigation/TopNav";
 import Main from "./Main";
+import EditUser from './EditUser'
 import Login from "./Login";
 import Signup from "./Signup";
 import UserProfilePage from "./UserProfilePage";
 import { api } from "../services/api";
 
-const App = (props) => {
+const App = () => {
   const [auth, setAuth] = useState({ user: {} });
-  //! testing purposes
-  const [diets, setDiets] = useState([]);
+  const [locationTesting, setLocationTesting] = useState({ location: {} });
 
-  //! testing purposes
   useEffect(() => {
     //! authentication
-
     const token = localStorage.token;
     if (token && token != "undefined") {
-      api.auth.getCurrentUser().then((data) =>
+      api.auth.getCurrentUser().then((data) => {
         setAuth({
           user: {
             id: data.user.id,
             name: data.user.name,
-            email: data.user.email
           },
-        })
-      );
+        });
+        setLocationTesting({
+          location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
+        });
+      });
     }
   }, []);
 
@@ -41,8 +41,10 @@ const App = (props) => {
         user: {
           id: data.user.id,
           name: data.user.name,
-          email: data.user.email,
         },
+      });
+      setLocationTesting({
+        location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
       });
       routerProps.history.push("/");
     } else {
@@ -54,13 +56,14 @@ const App = (props) => {
     if (data.jwt) {
       console.log("successfully signed up");
       localStorage.setItem("token", data.jwt);
-
       setAuth({
         user: {
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.email,
+          id: data.id,
+          email: data.email,
         },
+      });
+      setLocationTesting({
+        location: { latitude: data.user.location.latitude, longitude: data.user.location.longitude },
       });
       routerProps.history.push("/");
     } else {
@@ -90,25 +93,34 @@ const App = (props) => {
             <Login routerProps={routerProps} onLogin={onLogin} />
           )}
         />
-        <Container fluid>
-          <div className="routes-container">
-            <TopNav onLogout={onLogout} />
-            <Route
-              exact
-              path="/profile"
-              render={(routerProps) => (
-                <UserProfilePage routerProps={routerProps} auth={auth} />
-              )}
-            />
-            <Route
-              exact
-              path="/"
-              render={(routerProps) => (
-                <Main routerProps={routerProps} auth={auth} />
-              )}
-            />
-          </div>
-        </Container>
+        <>
+          <Container fluid>
+            <div className="routes-container">
+              <TopNav onLogout={onLogout} auth={auth} />
+              <Route
+                exact
+                path="/profile/:id"
+                render={(routerProps) => (
+                  <UserProfilePage location={locationTesting} routerProps={routerProps} auth={auth} />
+                )}
+              />
+              <Route
+                exact
+                path="/profile/:id/edit"
+                render={(routerProps) => (
+                  <EditUser location={locationTesting} routerProps={routerProps} auth={auth} />
+                )}
+              />
+              <Route
+                exact
+                path="/"
+                render={(routerProps) => (
+                  <Main routerProps={routerProps} auth={auth} />
+                )}
+              />
+            </div>
+          </Container>
+        </>
       </Switch>
     </>
   );
