@@ -20,16 +20,14 @@ const App = (props) => {
 
     const token = localStorage.token;
     if (token && token != "undefined") {
-      api.auth.getCurrentUser().then(
-        (data) => console.log(data)
-        //exception: "#<NoMethodError: undefined method `read_attribute_for_serialization' for nil:NilClass>"
-
-        // setAuth({
-        //   user: {
-        //     id: data.user.id,
-        //     name: data.user.name,
-        //   },
-        // })
+      api.auth.getCurrentUser().then((data) =>
+        setAuth({
+          user: {
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email
+          },
+        })
       );
     }
   }, []);
@@ -43,6 +41,7 @@ const App = (props) => {
         user: {
           id: data.user.id,
           name: data.user.name,
+          email: data.user.email,
         },
       });
       routerProps.history.push("/");
@@ -55,10 +54,12 @@ const App = (props) => {
     if (data.jwt) {
       console.log("successfully signed up");
       localStorage.setItem("token", data.jwt);
+
       setAuth({
         user: {
-          id: data.id,
-          email: data.email,
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
         },
       });
       routerProps.history.push("/");
